@@ -1,10 +1,11 @@
-/* Basic Body Structure - Solarized Dark 2.0, based on Solarized Dark 1.0, based on Sapientia 1.3 */
+/* Basic Body Structure */
 
 * {
-	margin: 0;
-	padding: 0;
-	font-size: 100%;
-	word-wrap: break-word;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  -webkit-word-break: break-word;
+  word-wrap: break-word;
 }
 
 body {
@@ -18,34 +19,43 @@ body {
 	font-family: "HelveticaNeue";
 }
 
-body div#body_home {
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	z-index: 100;
-	max-height: 99.99%;
-	position: absolute;
-	opacity: 0; /* Set by JavaScript */
-	-webkit-transition: opacity 0.8s linear;
-}
-
-body[viewtype=channel] div#body_home {
-	max-height: 96.5%;
+p {
+  overflow: visible !important;
 }
 
 body .line {
- 	margin-top: -1px;
-	clear: both;
+  margin-top: -1px;
+  clear: both;
 }
 
-body[dir=rtl] .sender {
-	display: inline-block;
+#body_home {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+  max-height: 99.99%;
+  opacity: 0; /* Set by JavaScript */
+  -webkit-transition: opacity 0.8s linear;
+}
+
+#body_home {
+  max-height: 96.5%;
+}
+
+body[dir=rtl] .senderContainer {
+  display: inline-block;
+}
+
+/* Hide some internal stuff. */
+#timestampWidth {
+  display: none;
 }
 
 /* Loading Screen */
 
-body div#loading_screen {
+#loading_screen {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -63,29 +73,38 @@ body div#loading_screen {
 	-webkit-transition: opacity 0.8s linear;
 }
 
-/* Time */
-
-body[dir=ltr] .time {
-	color: #586e75;
-	white-space: nowrap; 
+#loading_screen progress {
+  margin-top: 5px;
 }
 
-body[dir=rtl] .time {
-	color: #586e75;
-	white-space: nowrap; 
-	padding-left: 0.4em;
-	display: inline-block;
+/* Time */
+body[dir=ltr] .time {
+  font-size: .91em !important;
+  white-space: nowrap;
+  float: right;
+  color: #586e75;
+  -webkit-user-select: none;
+  /*  font-weight: bold; */
+  margin-right: 10px;
+  padding-left: 25px;
+  line-height: 22px;
+  font-style: normal;
+  text-align: right;
 }
 
 /* Encryption Lock */
+.encryptionLock {
+}
 
 .encryptionLock img {
-	float: right;
-	margin: 0;
-	padding: 0;
-	height: 11px;
-	margin-top: 2px;
-	padding-left: 10px;
+  z-index: 100;
+  position:absolute;
+  top:0;
+  left: 5px;
+  bottom:0;
+  margin:auto;
+  height: 12px;
+  width: auto;
 }
 
 /* Links */
@@ -103,28 +122,25 @@ a:hover {
 }
 
 /* Topic Bar */
-
 #topic_bar {
-	top: 0;
-	left: 0;
-	right: 0;
-	color: #586e75;
-	z-index: 400;
-	opacity: 0; /* Set by JavaScript */
-	line-height: 145%;
-	position: fixed;
-	background: #073642;
-	padding: 2px 0.5em 3px;
-	border-bottom: 1px solid #000a0c;
-	-webkit-box-shadow: 0 1px 5px #000a0c;
-	-webkit-transition: opacity 0.8s linear;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: #586e75;
+  z-index: 400;
+  opacity: 0; /* Set by JavaScript */
+  line-height: 145%;
+  position: fixed;
+  background: #073642;
+  padding: 2px 0.5em 3px;
+  border-bottom: 1px solid #000a0c;
+  -webkit-box-shadow: 0 1px 5px #000a0c;
+  -webkit-transition: opacity 0.8s linear;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  /*text-shadow: 1px 1px rgba(10, 10, 10, 0.7); */
 }
-
-/* Topic bar hover additions contributed with permission from the project:
-	<https://github.com/hbang/Simplified-Light-Modifications> */
 
 #topic_bar:hover {
 	overflow: visible;
@@ -132,9 +148,9 @@ a:hover {
 }
 
 #topic_bar a,
-#topic_bar span.channel {
-	color: #839496;
-	border-color: #839496;
+#topic_bar .channel {
+  color: #839496;
+  border-color: #839496;
 }
 
 #topic_bar a:hover {
@@ -142,13 +158,47 @@ a:hover {
 	border-color: #93a1a1;
 }
 
+/* Hidden scrollback history bar */
+#scrolling_history {
+	  z-index: 400;
+	  position: fixed;
+	  bottom: 0;
+	  left: 0;
+	  right: 0;
+	  height: auto;
+	  -webkit-box-shadow: 0 1px 5px #000a0c;
+	  -webkit-transition: opacity 0.8s linear;
+	  background: #163643;
+	  display: none;
+	  overflow: hidden;
+	}
+
+#scrolling_history .senderContainer {
+  background: #163643;
+}
+
+
 /* Images */
+
+body a img {
+  border: 0;
+}
+
+body video,
+body img {
+  display: block;
+}
 
 .inlineImageCell {
 	overflow: auto;
 	display: block;
 	margin-top: 15px;
 	margin-bottom: 12px;
+}
+
+.inlineImageCell > a {
+  display: inline-block;
+  border: none;
 }
 
 .inlineImageCell .image {
@@ -177,451 +227,384 @@ a:hover {
 	padding-left: 0px;
 }
 
-html[systemversion^="10.9"] .inlineImageCell .closeButton,
-html[systemversion^="10.8"] .inlineImageCell .closeButton {
-	line-height: 13px;
-}
-
-/* 
-body a img {
-	border: 0;
-}
-
-body img {
-	display: block;
-	max-width: 95%;
-	margin: 15px 15px 12px 15px;
-}
- */
 
 /* Remember Line */
+/*div[id=mark] {
+  position: relative;
+  z-index: 295;
+  margin-top: -1px;
+  border-bottom: 1px solid;
+  border-color: #444;
+  -webkit-transition: 0.2s linear;
+} */
 
-div[id=mark] {
-	clear: both;
-	position: relative;
-	z-index: 295;
-	margin-top: -1px;
-	border-bottom: 1px dashed;
-	border-color: rgba(88,110,117,0.5);
-	-webkit-transition: 0.2s linear;
+body[dir=ltr] div[ltype=action] .sender:before {
+  margin-right: 0.6em;
+  font-weight: bold;
+  font-size: 80% !important;
+  content: "●";
+
 }
 
-/* Historic Line */
-
-#historic_messages {
-	display: inline-block;
+/* Historic / Log readback */
+#historic_messages,
+#body_home > .historic {
+  	display: inline-block;
 	margin: 0;
 	padding: 0;
-	opacity: 0.6;
+	opacity: 0.6
 }
 
 /* NOTICE/CTCP/WALLOPS */
-
-body div.line[ltype*=ctcp],
-body div.line[ltype*=notice],
-body div.line[ltype*=wallops] {
-	color: #dc322f;
-  	z-index: 191;
-	background: rgba(203,75,22,.2);
-  	position: relative;
- 	padding: 2px 5px 2px 5px;
-	border-top: 1px solid rgba(203,75,22,.3);
-	border-bottom: 1px solid rgba(203,75,22,.3);
+body div.line[ltype=ctcp],
+body div.line[ltype=notice],
+body div.line[ltype=wallops] {
+  color: #dc322f;
+  z-index: 191;
+  background: rgba(203,75,22,.2);
+  position: relative;
+  border-top: 1px solid rgba(203,75,22,.3);
+  border-bottom: 1px solid rgba(203,75,22,.3);
+  border-left: none;
+  background-color: #1d2734;
 }
 
-body div.line[ltype*=ctcp] a,
-body div.line[ltype*=notice] a,
-body div.line[ltype*=wallops] a {
-	color: #dc322f;
-	border-color: #dc322f;
+body div[ltype=ctcp] .senderContainer,
+body div[ltype=notice] .senderContainer {
+  color: #dc322f;
+  font-weight: 700;
+  min-height:23px;
+  width: 134px;
+  padding-right:7px;
+  text-align:right;
+  display:inline-block;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  text-overflow: ellipsis;
+  border-color: #dc322f;
 }
 
-body div.line[ltype*=ctcp] a:hover,
-body div.line[ltype*=notice] a:hover,
-body div.line[ltype*=wallops] a:hover {
-	color: #cb4b16;
-	border-color: #cb4b16;
-}
-
-body div[ltype*=notice] .sender {
-	color: #cb4b16;
-	font-weight: 700;
-}
-
-/* SELECTED USER MESSAGES */
-
-.sender {
-	cursor: pointer;
-}
-
-body div.line[ltype*=privmsg]:not(.selectedUser),
-body div.line[ltype*=action]:not(.selectedUser) {
-    transition-property: border-top, border-bottom, background-color;
-	transition-duration: 0.5s, 0.5s, 0.5s;
-}
-
-body div.line[ltype*=privmsg] .time:not(.selectedUser),
-body div.line[ltype*=action] .time:not(.selectedUser) {
-    transition: color 0.5s;
-}
-
-body div.line.selectedUser[highlight=false] .time {
-    transition: color 0.5s ease-in;
-/*	color: #000;*/
-}
-
-body div.line.selectedUser[highlight=false] {
-    transition-property: border-top, border-bottom, background-color;
-	transition-duration: 0.5s, 0.5s, 0.5s;
-
-  	z-index: 190;
-  	position: relative;
-	border-top: 1px solid #2AA198 !important;
-	border-bottom: 1px solid #2AA198 !important;
-  	background-color: #0D3330 !important;
+body div[ltype=notice] .message {
+  color: #cb4b16;
+  font-weight: 700;
 }
 
 /* PRIVMSG */
-
-body div.line[ltype*=privmsg][highlight=false] {
-	padding: 2px 5px 2px 5px;
-	border-top: 1px solid transparent;
-	border-bottom: 1px solid transparent;
-/*	background-color: none;*/
+body div.line[ltype=privmsg][highlight=false] {
+  padding: 0;
+  position: relative;
+  min-height: 23px;
 }
 
-body div.line[ltype*=privmsg][highlight=true],
-body div.line[ltype*=action][highlight=true] {
-	font-weight: normal;
- 	padding: 2px 5px 2px 5px;
-	border-top: 1px solid #994C00;
-	border-bottom: 1px solid #994C00;
-  	background-color: #2d1e10 !important;
+body div[ltype=privmsg] .senderContainer {
+  /*  font-weight: 700; */
+  min-height:23px;
+  width: 134px;
+  /* border-right: 1px solid rgb(64, 64, 64); */
+  padding-right:7px;
+  background-color: #002b36;
+  text-align:right;
+  display:inline-block;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  text-overflow: ellipsis;
 }
 
-body div[ltype*="privmsg"] .message {
-	color: #aaa;
+body .senderContainer .swrapper {
+  font-size: 0px !important;
+  opacity: 0;
 }
 
-body div[ltype*=privmsg][mtype*=myself] .message {
-	color: #839496;
+body div[ltype="privmsg"] .message {
+  word-break: break-word;
+  color: #aaa;
 }
 
-body div[ltype*=privmsg] .sender {
-	font-weight: 700;
+body div[ltype="privmsg"][encrypted="true"] {
+  background-color: #2d1e10 !important;
+}
+
+body div[ltype="privmsg"][encrypted="failed"] {
+  background-color: #2d1e10 !important;
+}
+
+body div[ltype="privmsg"][highlight=true][encrypted="true"] {
+  background-color: #2d1e10 !important;
+}
+
+body div[ltype=privmsg] p[ltype=myself] .message {
+  color: #839496;
+}
+
+body div[ltype=privmsg] p span.effect[color-number=1]:not([bgcolor-number]) {
+  color: #f2f2f2; /* make black text with no bg white for readability */
 }
 
 /* ACTION */
-
-body div.line[ltype*=action] {
- 	padding: 3px 5px 3px 5px;
+body div[ltype=action] .senderContainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 134px;
+  /*  font-weight: 700;*/
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  height:22px;
+  padding-right: 7px;
+  text-align:right;
+  display:inline-block;
+  overflow: hidden;
 }
 
-body div[ltype*="action"] .message {
-	color: #aaa;
+body div.line[ltype=action] .message {
+  word-break: break-word;
+  padding-top: 1px;
 }
 
-body div[ltype*=action] .sender {
-	font-weight: 700;
-}
-
-body div[ltype*=action][mtype*=myself] .sender,
-body div[ltype*=action][mtype*=myself] .message {
-	color: #839496;
-}
-
-body[dir=ltr] div[ltype*=action] .sender:before {
-	content: "\2022";
-	margin-right: 0.4em;
-}
-
-body[dir=ltr] div[ltype*=action] .sender:after {
-	content: "";
-  	/* margin-right: 0.4em; */
-}
-
-body[dir=rtl] div[ltype*=action] .sender:before {
-	content: "\2022";
-	margin-left: 0.4em;
-}
-
-body[dir=rtl] div[ltype*=action] .sender:after {
-	content: "";
-  	/* margin-left: 0.4em; */
+body div.line[ltype=action][highlight=true] .message {
+  color: #f2f2f2 !important;
 }
 
 /* DEBUG/INVITE */
+body div.line[ltype=invite],
+body div.line[ltype=debug],
+body div.line[ltype=dcc-file-transfer],
+body div.line[ltype=off-the-record-encryption-status] {
+  color: #586e75;
+  z-index: 190;
+  background: #073642;
+  position: relative;
+  padding: 2px 5px 2px 5px;
+  border-top: 1px solid #002b36;
+  border-bottom: 1px solid #002b36;
+}
 
-body div.line[ltype*=invite],
-body div.line[ltype*=debug],
-body div.line[ltype*=rawhtml],
-body div.line[ltype*=dcc-file-transfer],
-body div.line[ltype*=off-the-record-encryption-status] {
-	color: #586e75;
-  	z-index: 190;
-	background: #073642;
-  	position: relative;
- 	padding: 2px 5px 2px 5px;
-	border-top: 1px solid #002b36;
-	border-bottom: 1px solid #002b36;
+body div.line[ltype=ctcp] .message,
+body div.line[ltype=invite] .message,
+body div.line[ltype=debug] .message,
+body div.line[ltype=dcc-file-transfer] .message,
+body div.line[ltype=off-the-record-encryption-status] .message {
+  text-indent: 0;
+  padding-left: 145px !important;
 }
 
 /* off-the-record-encryption-status Message Event */
-body div.line[ltype*=off-the-record-encryption-status] .message {
-/* 	color: #ff0000; */
-	font-weight: 700;
+body div.line[ltype=off-the-record-encryption-status]  .message {
+  /*color: #ff0000; */
+  font-weight: 700;
 }
 
 /* Message of the Day (MOTD) */
 /* 720, 721, 722 are used by ShadowIRCd for Oper MOTD. */
-/* 372, 375, 376 are normal MOTD shared by several IRCds. */ 
-
+/* 372, 375, 376 are normal MOTD shared by several IRCds. */
 body div.line[command="372"],
 body div.line[command="721"] {
-	border: none;
-	padding-top: 3px;
-	padding-bottom: 3px;
+  border: none;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 body div.line[command="375"],
 body div.line[command="720"] { /* Start. */
-	border-bottom: none;
-	padding-top: 2px;
-	padding-bottom: 3px;
+  border-bottom: none;
+  padding-top: 2px;
+  padding-bottom: 3px;
 }
 
 body div.line[command="376"],
 body div.line[command="722"] { /* End. */
-	border-top: none;
-	padding-top: 3px;
-	padding-bottom: 3px;
+  border-top: none;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 body div.line[command="372"] .message,
 body div.line[command="375"] .message,
-body div.line[command="376"] .message 
+body div.line[command="376"] .message
 body div.line[command="720"] .message,
 body div.line[command="721"] .message,
 body div.line[command="722"] .message {
-	font-family: "Menlo" !important;
+  font-family: "Menlo" !important;
 }
 
 /* GENERAL EVENT */
-
-body div.line[ltype*=join],
-body div.line[ltype*=part],
-body div.line[ltype*=kick],
-body div.line[ltype*=quit],
-body div.line[ltype*=kill],
-body div.line[ltype*=nick],
-body div.line[ltype*=mode],
-body div.line[ltype*=topic],
-body div.line[ltype*=website] {
- 	padding: 3px 5px 3px 5px;
-	color: #586e75;
+body span.message {
+  position: relative;
+  padding-left: 150px;
+  /*padding-right: 25px; */
+  display: table-cell;
+  min-height: 22px;
+  line-height: 22px;
+  overflow: visible !important;
 }
 
-body[dir=ltr] div[ltype*=join] .message:before {
-	content: "→";
-  	color: #859900;
-  	/* margin-right: 0.4em; */
+body div.event span.time {
+  color: #999;
+  line-height: 19px;
+  display: table-cell;
 }
 
-body[dir=ltr] div[ltype*=kick] .message:before,
-body[dir=ltr] div[ltype*=part] .message:before,
-body[dir=ltr] div[ltype*=quit] .message:before {
-	content: "←";
-  	color: #dc322f;
-  	/* margin-right: 0.4em; */
+body div.event span.message {
+  min-height: 19px;
+  line-height: 19px;
+  text-indent: -20px;
+  padding-left: 0;
 }
 
-body[dir=ltr] div[ltype*=nick] .message:before {
-	content:"•";
-  	color: #859900;
-  	/* margin-right: 0.4em; */
+body div.line[ltype=join],
+body div.line[ltype=part],
+body div.line[ltype=quit],
+body div.line[ltype=mode],
+body div.line[ltype=nick],
+body div.line[ltype=topic],
+body div.line[ltype=kill],
+body div.line[ltype=kick],
+body div.line[ltype=website] {
+  padding: 3px 0px 3px 0px;
+  font-size: 95%;
+  min-height: 19px;
+  padding-left: 145px;
+  color: #586e75;
 }
 
-body[dir=rtl] div[ltype*=join] .message:before {
-	content: "→";
-  	color: #859900;
-  	/* margin-left: 0.4em; */
+body div.line[ltype=topic] span.message {
+  text-indent: 0;
 }
 
-body[dir=rtl] div[ltype*=kick] .message:before,
-body[dir=rtl] div[ltype*=part] .message:before,
-body[dir=rtl] div[ltype*=quit] .message:before {
-	content: "←";
-  	color: #dc322f;
-  	/* margin-left: 0.4em; */
+body div.line[ltype=nick] {
+  color: #529567;
+}
+body div.line[ltype=kill],
+body div.line[ltype=kick] {
+  color: #ec5151;
 }
 
-body[dir=rtl] div[ltype*=nick] .message:before {
-	content:"•";
-  	color: #859900;
-  	/* margin-left: 0.4em; */
+body[dir=ltr] div[ltype=join] .message:before {
+  content: "→";
+  color: #859900;
+  margin-left:3px;
+  margin-right: 5px;
+}
+
+
+body[dir=ltr] div[ltype=kick] .message:before,
+body[dir=ltr] div[ltype=part] .message:before,
+body[dir=ltr] div[ltype=quit] .message:before {
+  content: "←";
+  color: #dc322f;
+  margin-left:3px;
+  margin-right: 5px;
+}
+
+body[dir=ltr] div[ltype=nick] .message:before {
+  content: "\2022";
+  color: #859900;
+  font-weight: 700;
+  margin-left: 8px;
+  margin-right: 5px;
+}
+
+body[dir=ltr] div[ltype=mode] .message:before {
+  content: "\2022";
+  color: #586e75;
+  font-weight: 700;
+  margin-left: 8px;
+  margin-right: 5px;
+}
+
+body[dir=rtl] div[ltype=join] .message:before {
+  content: "→";
+  color: #859900;
+  margin-left:3px;
+  margin-right: 5px;
+}
+
+body[dir=rtl] div[ltype=kick] .message:before,
+body[dir=rtl] div[ltype=part] .message:before,
+body[dir=rtl] div[ltype=quit] .message:before {
+  content: "←";
+  color: #dc322f;
+  margin-left:3px;
+  margin-right: 5px;
 }
 
 /* Nickname Colors */
 
 body .inline_nickname {
-	font-weight: 700;
+  font-weight: 700;
 }
 
-body div[ltype*=privmsg] .sender[mtype*=myself] { 
-	color: #839496; 
+body .sender[mtype=myself] {
+  color: #839496;
 }
 
-body .sender[mtype*=normal][colornumber='0'], 
-body .inline_nickname[colornumber='0'] { 
-	color: #b58900; 
+/* SELECTED USER MESSAGES */
+
+.senderContainer {
+  cursor: pointer;
+  overflow: hidden;
 }
 
-body .sender[mtype*=normal][colornumber='1'], 
-body .inline_nickname[colornumber='1'] { 
-	color: #cb4b16; 
+body div.line[ltype=privmsg]:not(.selectedUser),
+body div.line[ltype=action]:not(.selectedUser) {
+  transition-property: background-color;
+  transition-duration: 0.5s, 0.5s, 0.5s;
 }
 
-body .sender[mtype*=normal][colornumber='2'], 
-body .inline_nickname[colornumber='2'] { 
-	color: #dc322f; 
+body div.line[ltype=privmsg] .time:not(.selectedUser),
+body div.line[ltype=action] .time:not(.selectedUser) {
+  transition: color 0.5s;
 }
 
-body .sender[mtype*=normal][colornumber='3'], 
-body .inline_nickname[colornumber='3'] { 
-	color: #d33682; 
+body div.line.selectedUser[highlight=false] .time {
+  transition: color 0.5s ease-in;
+  /*color: #aaa; */
 }
 
-body .sender[mtype*=normal][colornumber='4'], 
-body .inline_nickname[colornumber='4'] { 
-	color: #6c71c4; 
+body div.line.selectedUser[highlight=false] {
+  transition-property: background-color;
+  transition-duration: 0.5s, 0.5s, 0.5s;
+  z-index: 190;
+  position: relative;
+  background-color: #0D3330 !important;
 }
 
-body .sender[mtype*=normal][colornumber='5'], 
-body .inline_nickname[colornumber='5'] { 
-	color: #268bd2; 
+body div.line[ltype=privmsg][highlight=true],
+body div.line[ltype=action][highlight=true] {
+  z-index: 191;
+  position: relative;
+  font-weight: normal;
+  background-color: #2AA198;
 }
 
-body .sender[mtype*=normal][colornumber='6'],
-body .inline_nickname[colornumber='6'] { 
-	color: #2aa198; 
+/* Date changes */
+body div.date {
+    display: flex;
+    display: -webkit-flex;
+    padding: .5em 0;
 }
 
-body .sender[mtype*=normal][colornumber='7'], 
-body .inline_nickname[colornumber='7'] { 
-	color: #859900; 
+body div.date > hr {
+    background: #444;
+    border: 0;
+    flex: 1;
+    height: 1px;
+    margin-top: .6em;
+    -webkit-flex: 1;
 }
 
-body .sender[mtype*=normal][colornumber='8'],
-body .inline_nickname[colornumber='8'] { 
-	color: #b58900; 
+body div.date > span {
+    font-style: oblique;
+    margin: 0 1em;
 }
 
-body .sender[mtype*=normal][colornumber='9'], 
-body .inline_nickname[colornumber='9'] { 
-	color: #93a1a1; 
-}
-
-body .sender[mtype*=normal][colornumber='10'], 
-body .inline_nickname[colornumber='10'] { 
-	color: #cb4b16; 
-}
-
-body .sender[mtype*=normal][colornumber='11'], 
-body .inline_nickname[colornumber='11'] { 
-	color: #dc322f; 
-}
-
-body .sender[mtype*=normal][colornumber='12'], 
-body .inline_nickname[colornumber='12'] { 
-	color: #d33682; 
-}
-
-body .sender[mtype*=normal][colornumber='13'], 
-body .inline_nickname[colornumber='13'] { 
-	color: #6c71c4; 
-}
-
-body .sender[mtype*=normal][colornumber='14'], 
-body .inline_nickname[colornumber='14'] { 
-	color: #268bd2; 
-}
-
-body .sender[mtype*=normal][colornumber='15'], 
-body .inline_nickname[colornumber='15'] { 
-	color: #2aa198;
-}
-
-body .sender[mtype*=normal][colornumber='16'], 
-body .inline_nickname[colornumber='16'] { 
-	color: #859900;
-}
-
-body .sender[mtype*=normal][colornumber='17'], 
-body .inline_nickname[colornumber='17'] { 
-	color: #93a1a1;
-}
-
-body .sender[mtype*=normal][colornumber='18'], 
-body .inline_nickname[colornumber='18'] { 
-	color: #839496;
-}
-
-body .sender[mtype*=normal][colornumber='19'], 
-body .inline_nickname[colornumber='19'] { 
-	color: #93a1a1;
-}
-
-body .sender[mtype*=normal][colornumber='20'], 
-body .inline_nickname[colornumber='20'] { 
-	color: #b58900;
-}
-
-body .sender[mtype*=normal][colornumber='21'], 
-body .inline_nickname[colornumber='21'] { 
-	color: #cb4b16;
-}
-
-body .sender[mtype*=normal][colornumber='22'], 
-body .inline_nickname[colornumber='22'] { 
-	color: #dc322f;
-}
-
-body .sender[mtype*=normal][colornumber='23'], 
-body .inline_nickname[colornumber='23'] { 
-	color: #d33682;
-}
-
-body .sender[mtype*=normal][colornumber='24'], 
-body .inline_nickname[colornumber='24'] { 
-	color: #6c71c4;
-}
-
-body .sender[mtype*=normal][colornumber='25'], 
-body .inline_nickname[colornumber='25'] { 
-	color: #268bd2;
-}
-
-body .sender[mtype*=normal][colornumber='26'], 
-body .inline_nickname[colornumber='26'] { 
-	color: #2aa198;
-}
-
-body .sender[mtype*=normal][colornumber='27'], 
-body .inline_nickname[colornumber='27'] { 
-	color: #859900;
-}
-
-body .sender[mtype*=normal][colornumber='28'], 
-body .inline_nickname[colornumber='28'] { 
-	color: #839496;
-}
-
-body .sender[mtype*=normal][colornumber='29'], 
-body .inline_nickname[colornumber='29'] { 
-	color: #93a1a1;
-}
-
-body .sender[mtype*=normal][colornumber='30'], 
-body .inline_nickname[colornumber='30'] { 
-	color: #b58900;
+body div.date + div#mark, body div.date + div#historic_messages + div#mark {
+  display: none;
 }
