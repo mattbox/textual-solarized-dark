@@ -1,17 +1,10 @@
 # Solarized Dark theme for Textual
-
-![Screenshot](http://i.imgur.com/A6aUpUL.png)
-
-After having searched through all the different themes available for Textual we could not find one that was compatible with the latest version of Textual, so we rolled our own based on Sapientia 1.3.
+Based on Equinox theme with the sidebars
 
 ## Installation
 
-    $ cd /Library/Mobile Documents/iCloud~com~codeux~irc~textual5/Documents/Styles/
-    $ git clone https://github.com/Xorcode/textual-solarized-dark.git
+Put file in ~/Library/Group Containers/com.codeux.apps.textual/Library/Application Support/Textual/Styles
 
-## Support
-
-Please use the Issue system for support, bug reports, and feature requests.
 
 ## License
 
